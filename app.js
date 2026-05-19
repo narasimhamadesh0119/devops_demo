@@ -2,7 +2,7 @@ const express = require("express");
 const app = express()
 
 app.get('/',(req,res)=> {
-    res.send("Hello world from devops pipeline,Docker hub image  ");
+    res.send("Docker hub image updated to 31");
 });
 
 app.listen(7000,()=>{
