@@ -1,32 +1,30 @@
 pipeline {
+
     agent any
 
     stages {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build --progress=plain -t hello_devops_pipeline .'
+                sh 'docker build -t hello_devops_pipeline:latest .'
             }
         }
 
-        stage('Stop Old Container') {
+        stage('Deploy To Kubernetes') {
             steps {
-                sh '''
-                docker stop app || true
-                docker rm app || true
-                '''
+
+                sh 'kubectl apply -f k8s/deployment.yml'
+
+                sh 'kubectl apply -f k8s/service.yml'
             }
         }
 
-        stage('Deploy Container') {
+        stage('Verify Deployment') {
             steps {
-                sh 'docker run -d -p 7000:7000 --name app hello_devops_pipeline'
-            }
-        }
 
-        stage('Verify Container') {
-            steps {
-                sh 'docker ps'
+                sh 'kubectl get pods'
+
+                sh 'kubectl get svc'
             }
         }
     }
