@@ -14,6 +14,12 @@ pipeline {
             }
         }
 
+        stage('Load Image Into Minikube') {
+            steps {
+                sh 'minikube image load hello_devops_pipeline:latest'
+            }
+        }
+
         stage('Deploy To Kubernetes') {
             steps {
 
