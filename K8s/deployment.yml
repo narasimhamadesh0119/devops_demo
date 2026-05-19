@@ -20,9 +20,9 @@ spec:
       containers:
       - name: hello-app
 
-        image: hello_devops_pipeline:latest
+        image: narasimhamadesh/hello-devops-pipeline:latest
 
-        imagePullPolicy: Never
+        imagePullPolicy: Always
 
         ports:
         - containerPort: 7000
