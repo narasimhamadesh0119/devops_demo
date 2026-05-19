@@ -2,7 +2,7 @@ const express = require("express");
 const app = express()
 
 app.get('/',(req,res)=> {
-    res.send("Hello world from devops pipeline, checking for kubernetes");
+    res.send("Hello world from devops pipeline, checking for kubernetes Cluster");
 });
 
 app.listen(7000,()=>{
