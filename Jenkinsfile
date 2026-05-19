@@ -3,21 +3,30 @@ pipeline {
     agent any
 
     environment {
+        IMAGE_NAME = "narasimhamadesh/hello-devops"
         KUBECONFIG = "/var/jenkins_home/.kube/config"
-        IMAGE_NAME = "narasimhamadesh/hello-devops-pipeline:latest"
     }
 
     stages {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+                sh "docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} ."
             }
         }
 
-        stage('Push Image To DockerHub') {
+        stage('Push Docker Image') {
             steps {
-                sh 'docker push $IMAGE_NAME'
+                sh "docker push ${IMAGE_NAME}:${BUILD_NUMBER}"
+            }
+        }
+
+        stage('Update Deployment File') {
+            steps {
+
+                sh """
+                sed -i "s|image:.*|image: ${IMAGE_NAME}:${BUILD_NUMBER}|g" K8s/deployment.yml
+                """
             }
         }
 
@@ -27,12 +36,6 @@ pipeline {
                 sh 'kubectl apply -f K8s/deployment.yml'
 
                 sh 'kubectl apply -f K8s/service.yml'
-            }
-        }
-
-        stage('Restart Deployment') {
-            steps {
-                sh 'kubectl rollout restart deployment hello-app'
             }
         }
 

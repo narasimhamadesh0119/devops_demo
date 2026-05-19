@@ -20,7 +20,7 @@ spec:
       containers:
       - name: hello-app
 
-        image: narasimhamadesh/hello-devops-pipeline:latest
+        image: narasimhamadesh/hello-devops:latest
 
         imagePullPolicy: Always
 
