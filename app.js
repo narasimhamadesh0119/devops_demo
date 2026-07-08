@@ -2,7 +2,7 @@ const express = require("express");
 const app = express()
 
 app.get('/',(req,res)=> {
-    res.send("Docker hub image updated to 31");
+    res.send("jenkins demo");
 });
 
 app.listen(7000,()=>{
